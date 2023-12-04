@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=3 uid="uid://b01rf34qsb6ct"]
+
+[ext_resource type="Script" path="res://scenes/mainMenu/mainMenu.gd" id="1_oshsq"]
+[ext_resource type="Texture2D" uid="uid://brwjvdd5x2bpm" path="res://textures/mountains-440520_1280.jpg" id="1_qk163"]
+
+[sub_resource type="SystemFont" id="SystemFont_m5h3b"]
+
+[node name="mainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_oshsq")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(0, -133)
+texture = ExtResource("1_qk163")
+centered = false
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+offset_top = 133.0
+offset_right = 1280.0
+offset_bottom = 853.0
+color = Color(0, 0, 0, 0.352941)
+
+[node name="lyokiName" type="RichTextLabel" parent="."]
+offset_left = 76.0
+offset_top = 60.0
+offset_right = 480.0
+offset_bottom = 184.0
+theme_override_fonts/normal_font = SubResource("SystemFont_m5h3b")
+theme_override_font_sizes/normal_font_size = 90
+text = "Lyoki"
+fit_content = true
+scroll_active = false
+
+[node name="buttonMargin" type="MarginContainer" parent="."]
+offset_left = 66.0
+offset_top = 378.0
+offset_right = 425.0
+offset_bottom = 642.0
+
+[node name="buttonVBox" type="VBoxContainer" parent="buttonMargin"]
+layout_mode = 2
+
+[node name="playButton" type="Button" parent="buttonMargin/buttonVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Play"
+
+[node name="settingsButton" type="Button" parent="buttonMargin/buttonVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Options"
+
+[node name="creditsButton" type="Button" parent="buttonMargin/buttonVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Credits"
+
+[node name="exitButton" type="Button" parent="buttonMargin/buttonVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Exit"
+
+[connection signal="pressed" from="buttonMargin/buttonVBox/playButton" to="." method="_onPlayPressed"]
+[connection signal="pressed" from="buttonMargin/buttonVBox/settingsButton" to="." method="_onOptionsPressed"]
+[connection signal="pressed" from="buttonMargin/buttonVBox/creditsButton" to="." method="_onCreditsPressed"]
+[connection signal="pressed" from="buttonMargin/buttonVBox/exitButton" to="." method="_onExitPressed"]
