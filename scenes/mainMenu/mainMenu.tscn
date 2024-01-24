@@ -11,21 +11,22 @@ anchors_preset = 0
 script = ExtResource("1_oshsq")
 
 [node name="Background" type="Sprite2D" parent="."]
-position = Vector2(0, -133)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_qk163")
 centered = false
 
 [node name="ColorRect" type="ColorRect" parent="Background"]
-offset_top = 133.0
+offset_top = 1.0
 offset_right = 1280.0
 offset_bottom = 853.0
 color = Color(0, 0, 0, 0.352941)
 
 [node name="lyokiName" type="RichTextLabel" parent="."]
-offset_left = 76.0
-offset_top = 60.0
-offset_right = 480.0
-offset_bottom = 184.0
+layout_mode = 0
+offset_left = 61.0
+offset_top = 120.0
+offset_right = 830.0
+offset_bottom = 368.0
 theme_override_fonts/normal_font = SubResource("SystemFont_m5h3b")
 theme_override_font_sizes/normal_font_size = 90
 text = "Lyoki"
@@ -33,10 +34,11 @@ fit_content = true
 scroll_active = false
 
 [node name="buttonMargin" type="MarginContainer" parent="."]
-offset_left = 66.0
-offset_top = 378.0
-offset_right = 425.0
-offset_bottom = 642.0
+layout_mode = 0
+offset_left = 59.0
+offset_top = 640.0
+offset_right = 278.0
+offset_bottom = 904.0
 
 [node name="buttonVBox" type="VBoxContainer" parent="buttonMargin"]
 layout_mode = 2
@@ -60,6 +62,23 @@ text = "Credits"
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Exit"
+
+[node name="version" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 1757.0
+offset_top = 937.0
+offset_right = 1856.0
+offset_bottom = 986.0
+text = "Version:
+Test 3"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 1504.0
+offset_top = 66.0
+offset_right = 1865.0
+offset_bottom = 96.0
+text = "Only the play and exit buttons work for now"
 
 [connection signal="pressed" from="buttonMargin/buttonVBox/playButton" to="." method="_onPlayPressed"]
 [connection signal="pressed" from="buttonMargin/buttonVBox/settingsButton" to="." method="_onOptionsPressed"]

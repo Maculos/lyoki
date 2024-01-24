@@ -4,32 +4,36 @@ extends CharacterBody3D
 @export var walk_speed = 5
 @export var run_speed = 8
 @export var jump_velocity = 4
-@export var sensitivity = 0.1
+@export var sensitivity = 1
 @export var accel = 10
 @export var default_fov = 110.0
 @export var run_fov = 130.0
 
 #WE USE METERS IN THIS HOUSE AND THATS FINAL
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-
 var speed = walk_speed
-var running = false
 
-#no clue if this will cause conflicts long term having an array
-#with the same name as the script but thats a problem for future me
+var debugEnabled = false
+
 @onready var player = {
 	"head": $head,
 	"camera": $head/camera,
 	"cameraBobbing": $head/camera/cameraBobbing
 }
 
+func _ready():
+	#Show debug info when enabled or debug build
+	if(OS.is_debug_build() or debugEnabled):
+		var scene = preload("res://components/debugMenu/debug.tscn")
+		var instance = scene.instantiate()
+		instance.position = Vector2(-960,-500)
+		add_child(instance)
+
 func _process(delta):
 	if Input.is_action_pressed("input_run"):
-		running = true
 		speed = run_speed
 		player.camera.fov = lerp(player.camera.fov, run_fov, 10*delta)
 	else:
-		running = false
 		speed = walk_speed
 		player.camera.fov = lerp(player.camera.fov, default_fov, 10*delta)
 
@@ -44,14 +48,14 @@ func _physics_process(delta):
 	var dir = input_dir.normalized().rotated(-player.head.rotation.y)
 	dir = Vector3(dir.x, 0, dir.y) #final direction
 
+	#Normalize gravity against lag
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-	#(1) lerp is a very funny name
-	#(2) god im glad tutorials exist, very confusing
-	if is_on_floor():
-		velocity.x = lerp(velocity.x, dir.x * speed, accel * delta)
-		velocity.z = lerp(velocity.z, dir.z * speed, accel * delta)
+	#will need to retool this but i think its
+	#better to allow mid-air movment than not
+	velocity.x = lerp(velocity.x, dir.x * speed, accel * delta)
+	velocity.z = lerp(velocity.z, dir.z * speed, accel * delta)
 
 	if Input.is_action_pressed("input_jump") and is_on_floor():
 		velocity.y += jump_velocity
@@ -62,11 +66,29 @@ func _physics_process(delta):
 	else:
 		player.cameraBobbing.play("rest", 0.5)
 
-	move_and_slide() #the magic of characterbody3d making my life easier
+	move_and_slide()
+
+var isPaused = false
+func _pause():
+	if(isPaused):
+		isPaused = false
+	else:
+		isPaused = true
 
 
 func _input(event):
-	if event is InputEventMouseMotion:
-		player.head.rotation_degrees.x -= event.relative.y * sensitivity
-		player.head.rotation_degrees.y -= event.relative.x * sensitivity
+	if (event is InputEventMouseMotion) && !isPaused:
+		player.head.rotation_degrees.x -= event.relative.y * (sensitivity/10.0)
+		player.head.rotation_degrees.y -= event.relative.x * (sensitivity/10.0)
 		player.head.rotation.x = clamp(player.head.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+
+signal depositResource
+signal deleteResource
+@export var hasResource = false
+func _on_resource_holder_contact(body):
+	if(hasResource && body.is_in_group(player)):
+		emit_signal("depositResource")
+		hasResource = false
+	if(!hasResource && body.is_in_group(player)):
+		emit_signal("deleteResource")
+		hasResource = true

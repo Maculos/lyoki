@@ -1,14 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://qck50px03wk7"]
+[gd_scene load_steps=9 format=3 uid="uid://qck50px03wk7"]
 
 [ext_resource type="Script" path="res://scripts/gameManager.gd" id="1_54j0d"]
-[ext_resource type="Texture2D" uid="uid://by8njy82ag5vr" path="res://textures/OutdoorHDRI048_4K-HDR.exr" id="2_b14io"]
+[ext_resource type="Texture2D" uid="uid://cohmuufm6iir" path="res://textures/EveningSkyHDRI006B_2K-HDR.exr" id="2_00eel"]
 [ext_resource type="PackedScene" uid="uid://cwiu8nsyij4gn" path="res://components/player/player.tscn" id="3_htgbm"]
-[ext_resource type="Script" path="res://scripts/inputManager.gd" id="3_n6g5r"]
-[ext_resource type="Texture2D" uid="uid://cknnpbe7gnutf" path="res://components/prototype/Green/texture_01.png" id="4_46gpd"]
-[ext_resource type="PackedScene" uid="uid://c8wbl6dnharr" path="res://components/debugMenu/debug.tscn" id="4_kibe2"]
+[ext_resource type="PackedScene" uid="uid://5nxrh6vx1jnd" path="res://components/resourceHolder/resourceHolder.tscn" id="6_bd2rf"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_o8r0v"]
-panorama = ExtResource("2_b14io")
+panorama = ExtResource("2_00eel")
 
 [sub_resource type="Sky" id="Sky_i27my"]
 sky_material = SubResource("PanoramaSkyMaterial_o8r0v")
@@ -19,24 +17,10 @@ sky = SubResource("Sky_i27my")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jxrtg"]
-albedo_texture = ExtResource("4_46gpd")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmh5x"]
 
-[node name="lyoki" type="Node3D"]
+[node name="Lyoki" type="Node"]
 script = ExtResource("1_54j0d")
-
-[node name="directors" type="Node" parent="."]
-
-[node name="inputManager" type="Node" parent="directors"]
-script = ExtResource("3_n6g5r")
-
-[node name="player" parent="." instance=ExtResource("3_htgbm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-jump_velocity = 6
-
-[node name="debug" parent="." instance=ExtResource("4_kibe2")]
-position = Vector2(-620, 0)
-scale = Vector2(0.7, 0.7)
 
 [node name="world" type="Node3D" parent="."]
 
@@ -47,34 +31,28 @@ environment = SubResource("Environment_a6xcn")
 transform = Transform3D(0.933167, 0.309878, -0.182139, 0, 0.506726, 0.862107, 0.359443, -0.80449, 0.47286, 0, 0, 0)
 shadow_enabled = true
 
-[node name="geometry" type="Node3D" parent="."]
+[node name="Scene" type="Node3D" parent="."]
 
-[node name="CSGBox3D1" type="CSGBox3D" parent="geometry"]
+[node name="player" parent="Scene" instance=ExtResource("3_htgbm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+jump_velocity = 6
+hasResource = true
+
+[node name="geometry" type="Node3D" parent="Scene"]
+
+[node name="CSGBox3D1" type="CSGBox3D" parent="Scene/geometry"]
 transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0)
 use_collision = true
 size = Vector3(20, 1, 20)
-material = SubResource("StandardMaterial3D_jxrtg")
+material = SubResource("StandardMaterial3D_dmh5x")
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="geometry"]
-transform = Transform3D(1.91069e-15, 4.37114e-08, 10, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-07, 0, 10, 100)
-use_collision = true
-size = Vector3(20, 1, 20)
-material = SubResource("StandardMaterial3D_jxrtg")
+[node name="Interactive" type="Node3D" parent="Scene"]
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="geometry"]
-transform = Transform3D(4.37114e-08, 1, -8.74228e-07, 1, -4.37114e-08, 0, -3.82137e-15, -8.74228e-08, -10, 100, 10, 0)
-use_collision = true
-size = Vector3(20, 1, 20)
-material = SubResource("StandardMaterial3D_jxrtg")
+[node name="ResourceHolder" parent="Scene/Interactive" instance=ExtResource("6_bd2rf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.75, 20)
+hasResource = true
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="geometry"]
-transform = Transform3D(4.37114e-08, 1, -8.74228e-07, 1, -4.37114e-08, 0, -3.82137e-15, -8.74228e-08, -10, -100, 10, 0)
-use_collision = true
-size = Vector3(20, 1, 20)
-material = SubResource("StandardMaterial3D_jxrtg")
-
-[node name="CSGBox3D7" type="CSGBox3D" parent="geometry"]
-transform = Transform3D(1.91069e-15, 4.37114e-08, 10, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-07, 0, 10, -100)
-use_collision = true
-size = Vector3(20, 1, 20)
-material = SubResource("StandardMaterial3D_jxrtg")
+[connection signal="pause" from="." to="Scene/player" method="_pause"]
+[connection signal="deleteResource" from="Scene/player" to="Scene/Interactive/ResourceHolder" method="_deleteResource"]
+[connection signal="depositResource" from="Scene/player" to="Scene/Interactive/ResourceHolder" method="_depositResource"]
+[connection signal="body_entered" from="Scene/Interactive/ResourceHolder" to="Scene/player" method="_on_resource_holder_contact"]

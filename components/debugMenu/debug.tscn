@@ -13,18 +13,17 @@ script = ExtResource("1_f5wax")
 
 [node name="leftText" type="RichTextLabel" parent="debugOutput"]
 layout_mode = 0
-offset_right = 350.0
-offset_bottom = 540.0
+offset_right = 400.0
+offset_bottom = 600.0
+theme_override_colors/default_color = Color(1, 0, 1, 1)
 text = "catgirls dot com
 hee hoo am debug menus"
 
 [node name="rightText" type="RichTextLabel" parent="debugOutput"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -350.0
-offset_bottom = 540.0
-grow_horizontal = 0
+layout_mode = 0
+offset_left = 1520.0
+offset_right = 1920.0
+offset_bottom = 600.0
+theme_override_colors/default_color = Color(1, 0, 1, 1)
 text = "catgirls dot com
 hee hoo am debug menus"
