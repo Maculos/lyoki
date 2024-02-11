@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://qck50px03wk7"]
+[gd_scene load_steps=14 format=3 uid="uid://qck50px03wk7"]
 
 [ext_resource type="Script" path="res://scripts/gameManager.gd" id="1_54j0d"]
 [ext_resource type="Texture2D" uid="uid://cohmuufm6iir" path="res://textures/EveningSkyHDRI006B_2K-HDR.exr" id="2_00eel"]
@@ -17,7 +17,27 @@ sky = SubResource("Sky_i27my")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmh5x"]
+[sub_resource type="Gradient" id="Gradient_1cvil"]
+colors = PackedColorArray(3.36915e-06, 0.467412, 0, 1, 1.44392e-05, 0.847765, 1.15514e-06, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_iuft1"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_21xpm"]
+width = 800
+height = 800
+color_ramp = SubResource("Gradient_1cvil")
+noise = SubResource("FastNoiseLite_iuft1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xbl7n"]
+albedo_color = Color(0, 0.517647, 0, 1)
+albedo_texture = SubResource("NoiseTexture2D_21xpm")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_w6yqc"]
+material = SubResource("StandardMaterial3D_xbl7n")
+size = Vector2(500, 500)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lrnkv"]
+size = Vector3(500, 0.1, 500)
 
 [node name="Lyoki" type="Node"]
 script = ExtResource("1_54j0d")
@@ -38,18 +58,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 jump_velocity = 6
 hasResource = true
 
-[node name="geometry" type="Node3D" parent="Scene"]
+[node name="Geometry" type="Node3D" parent="Scene"]
 
-[node name="CSGBox3D1" type="CSGBox3D" parent="Scene/geometry"]
-transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0)
-use_collision = true
-size = Vector3(20, 1, 20)
-material = SubResource("StandardMaterial3D_dmh5x")
+[node name="Ground" type="StaticBody3D" parent="Scene/Geometry"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Scene/Geometry/Ground"]
+mesh = SubResource("PlaneMesh_w6yqc")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scene/Geometry/Ground"]
+shape = SubResource("BoxShape3D_lrnkv")
 
 [node name="Interactive" type="Node3D" parent="Scene"]
 
 [node name="ResourceHolder" parent="Scene/Interactive" instance=ExtResource("6_bd2rf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.75, 20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.1, 20)
 hasResource = true
 
 [connection signal="pause" from="." to="Scene/player" method="_pause"]

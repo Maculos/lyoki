@@ -21,14 +21,6 @@ var debugEnabled = false
 	"cameraBobbing": $head/camera/cameraBobbing
 }
 
-func _ready():
-	#Show debug info when enabled or debug build
-	if(OS.is_debug_build() or debugEnabled):
-		var scene = preload("res://components/debugMenu/debug.tscn")
-		var instance = scene.instantiate()
-		instance.position = Vector2(-960,-500)
-		add_child(instance)
-
 func _process(delta):
 	if Input.is_action_pressed("input_run"):
 		speed = run_speed
