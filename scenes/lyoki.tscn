@@ -1,9 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://qck50px03wk7"]
+[gd_scene load_steps=18 format=3 uid="uid://qck50px03wk7"]
 
 [ext_resource type="Script" path="res://scripts/gameManager.gd" id="1_54j0d"]
 [ext_resource type="Texture2D" uid="uid://cohmuufm6iir" path="res://textures/EveningSkyHDRI006B_2K-HDR.exr" id="2_00eel"]
 [ext_resource type="PackedScene" uid="uid://cwiu8nsyij4gn" path="res://components/player/player.tscn" id="3_htgbm"]
+[ext_resource type="PackedScene" uid="uid://btk67csrp0jyd" path="res://components/Hedges/HedgeLong.tscn" id="4_jwob0"]
+[ext_resource type="PackedScene" uid="uid://r5huilqlhgfw" path="res://components/Hedges/HedgeLongRound.tscn" id="5_gy82e"]
 [ext_resource type="PackedScene" uid="uid://5nxrh6vx1jnd" path="res://components/resourceHolder/resourceHolder.tscn" id="6_bd2rf"]
+[ext_resource type="PackedScene" uid="uid://bmmuov772nrb6" path="res://components/Hedges/HedgeSmall.tscn" id="6_nhm8s"]
+[ext_resource type="PackedScene" uid="uid://cj30gyul7j4lb" path="res://components/Hedges/HedgeSmallRound.tscn" id="7_iiv28"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_o8r0v"]
 panorama = ExtResource("2_00eel")
@@ -68,6 +72,18 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scene/Geometry/Ground"]
 shape = SubResource("BoxShape3D_lrnkv")
+
+[node name="HedgeLong" parent="Scene/Geometry" instance=ExtResource("4_jwob0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.50931)
+
+[node name="HedgeLongRound" parent="Scene/Geometry" instance=ExtResource("5_gy82e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.54742)
+
+[node name="HedgeSmall" parent="Scene/Geometry" instance=ExtResource("6_nhm8s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.3851)
+
+[node name="HedgeSmallRound" parent="Scene/Geometry" instance=ExtResource("7_iiv28")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14.0847)
 
 [node name="Interactive" type="Node3D" parent="Scene"]
 

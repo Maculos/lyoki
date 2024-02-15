@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://r5huilqlhgfw"]
+
+[ext_resource type="ArrayMesh" uid="uid://q0fto5cusayb" path="res://models/Free Hedges/LongRound/HedgeLongRound.obj" id="1_0ld7x"]
+[ext_resource type="Texture2D" uid="uid://biabb7n5y7yrl" path="res://models/Free Hedges/LongRound/diffuse.tga" id="2_g67vv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kcbee"]
+size = Vector3(2, 3.5, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2mqei"]
+albedo_texture = ExtResource("2_g67vv")
+
+[node name="HedgeLongRound" type="StaticBody3D"]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("BoxShape3D_kcbee")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+mesh = ExtResource("1_0ld7x")
+surface_material_override/0 = SubResource("StandardMaterial3D_2mqei")
