@@ -1,3 +1,6 @@
-./textures/mountains-440520_1280.jpg - https://pixabay.com/photos/mountains-peak-sunset-sunrise-dusk-440520/ - Pixabay content license
+Local File Path - Download Link - License - Note
+
 ./textures/EveningSkyHDRI006B_2K-HDR.exr - ambientCG.com/a/EveningSkyHDRI006B - SPDX: CC0-1.0
 ./models/Free Hedges - https://opengameart.org/content/free-hedges - SPDX: CC0-1.0
+./textures/spider-111075_960_720.jpg - https://pixabay.com/photos/spider-arachnid-animal-111075/ - Pixabay content license
+./models/Ultimate Food Pack - Oct 2019 - https://opengameart.org/content/low-poly-food-pack - SPDX: CC0-1.0

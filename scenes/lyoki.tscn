@@ -1,13 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://qck50px03wk7"]
+[gd_scene load_steps=17 format=3 uid="uid://qck50px03wk7"]
 
 [ext_resource type="Script" path="res://scripts/gameManager.gd" id="1_54j0d"]
 [ext_resource type="Texture2D" uid="uid://cohmuufm6iir" path="res://textures/EveningSkyHDRI006B_2K-HDR.exr" id="2_00eel"]
 [ext_resource type="PackedScene" uid="uid://cwiu8nsyij4gn" path="res://components/player/player.tscn" id="3_htgbm"]
 [ext_resource type="PackedScene" uid="uid://btk67csrp0jyd" path="res://components/Hedges/HedgeLong.tscn" id="4_jwob0"]
-[ext_resource type="PackedScene" uid="uid://r5huilqlhgfw" path="res://components/Hedges/HedgeLongRound.tscn" id="5_gy82e"]
-[ext_resource type="PackedScene" uid="uid://5nxrh6vx1jnd" path="res://components/resourceHolder/resourceHolder.tscn" id="6_bd2rf"]
-[ext_resource type="PackedScene" uid="uid://bmmuov772nrb6" path="res://components/Hedges/HedgeSmall.tscn" id="6_nhm8s"]
-[ext_resource type="PackedScene" uid="uid://cj30gyul7j4lb" path="res://components/Hedges/HedgeSmallRound.tscn" id="7_iiv28"]
+[ext_resource type="PackedScene" uid="uid://pyqkm4xv83hp" path="res://components/items/orange.tscn" id="5_eidnk"]
+[ext_resource type="Script" path="res://scripts/item.gd" id="5_x1poj"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_o8r0v"]
 panorama = ExtResource("2_00eel")
@@ -20,6 +18,9 @@ background_mode = 2
 sky = SubResource("Sky_i27my")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3ed4p"]
+size = Vector3(500, 60, 2)
 
 [sub_resource type="Gradient" id="Gradient_1cvil"]
 colors = PackedColorArray(3.36915e-06, 0.467412, 0, 1, 1.44392e-05, 0.847765, 1.15514e-06, 1)
@@ -64,6 +65,71 @@ hasResource = true
 
 [node name="Geometry" type="Node3D" parent="Scene"]
 
+[node name="Walls" type="Node3D" parent="Scene/Geometry"]
+visible = false
+
+[node name="InvisWall1" type="Area3D" parent="Scene/Geometry/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 250)
+
+[node name="Collision" type="CollisionShape3D" parent="Scene/Geometry/Walls/InvisWall1"]
+shape = SubResource("BoxShape3D_3ed4p")
+
+[node name="InvisWall2" type="Area3D" parent="Scene/Geometry/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, -250)
+
+[node name="Collision" type="CollisionShape3D" parent="Scene/Geometry/Walls/InvisWall2"]
+shape = SubResource("BoxShape3D_3ed4p")
+
+[node name="InvisWall3" type="Area3D" parent="Scene/Geometry/Walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -250, 30, 0)
+
+[node name="Collision" type="CollisionShape3D" parent="Scene/Geometry/Walls/InvisWall3"]
+shape = SubResource("BoxShape3D_3ed4p")
+
+[node name="InvisWall4" type="Area3D" parent="Scene/Geometry/Walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 250, 30, 0)
+
+[node name="Collision" type="CollisionShape3D" parent="Scene/Geometry/Walls/InvisWall4"]
+shape = SubResource("BoxShape3D_3ed4p")
+
+[node name="HedgeWall" type="Node3D" parent="Scene/Geometry"]
+
+[node name="HedgeLong" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 33, -100, 0, -66)
+
+[node name="HedgeLong2" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 33, -100, 0, 0)
+
+[node name="HedgeLong3" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 33, -100, 0, 66)
+
+[node name="HedgeLong4" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(33, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
+
+[node name="HedgeLong5" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(33, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
+
+[node name="HedgeLong6" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 33, 100, 0, 66)
+
+[node name="HedgeLong7" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 33, 100, 0, -66)
+
+[node name="HedgeLong8" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 33, 100, 0, 0)
+
+[node name="HedgeLong9" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(33, 0, 0, 0, 1, 0, 0, 0, 1, 66, 0, 100)
+
+[node name="HedgeLong10" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(33, 0, 0, 0, 1, 0, 0, 0, 1, -66, 0, 100)
+
+[node name="HedgeLong11" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(33, 0, 0, 0, 1, 0, 0, 0, 1, -66, 0, -100)
+
+[node name="HedgeLong12" parent="Scene/Geometry/HedgeWall" instance=ExtResource("4_jwob0")]
+transform = Transform3D(33, 0, 0, 0, 1, 0, 0, 0, 1, 66, 0, -100)
+
 [node name="Ground" type="StaticBody3D" parent="Scene/Geometry"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Scene/Geometry/Ground"]
@@ -73,25 +139,10 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scene/Geometry/Ground"]
 shape = SubResource("BoxShape3D_lrnkv")
 
-[node name="HedgeLong" parent="Scene/Geometry" instance=ExtResource("4_jwob0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.50931)
-
-[node name="HedgeLongRound" parent="Scene/Geometry" instance=ExtResource("5_gy82e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.54742)
-
-[node name="HedgeSmall" parent="Scene/Geometry" instance=ExtResource("6_nhm8s")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.3851)
-
-[node name="HedgeSmallRound" parent="Scene/Geometry" instance=ExtResource("7_iiv28")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14.0847)
-
 [node name="Interactive" type="Node3D" parent="Scene"]
+script = ExtResource("5_x1poj")
 
-[node name="ResourceHolder" parent="Scene/Interactive" instance=ExtResource("6_bd2rf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.1, 20)
-hasResource = true
+[node name="Orange" parent="Scene/Interactive" instance=ExtResource("5_eidnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 59.2391)
 
 [connection signal="pause" from="." to="Scene/player" method="_pause"]
-[connection signal="deleteResource" from="Scene/player" to="Scene/Interactive/ResourceHolder" method="_deleteResource"]
-[connection signal="depositResource" from="Scene/player" to="Scene/Interactive/ResourceHolder" method="_depositResource"]
-[connection signal="body_entered" from="Scene/Interactive/ResourceHolder" to="Scene/player" method="_on_resource_holder_contact"]
